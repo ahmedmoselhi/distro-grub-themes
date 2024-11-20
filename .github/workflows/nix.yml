@@ -18,21 +18,21 @@ jobs:
         name: Check flake
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v4
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v9
+            - name: Check repository
+              run: nix flake check 
             - name: Automatically update flake.lock
               uses: DeterminateSystems/update-flake-lock@v24
               with:
                   pr-title: "Update flake.lock"        # PR title
                   #pr-labels: [dependencies, automated] # PR labels 
-            - uses: actions/checkout@v4
             - name: Check Nix flake inputs
               uses: DeterminateSystems/flake-checker-action@v5
               with:
                 send-statistics: false
-                fail-mode: true
-            - name: Install Nix
-              uses: DeterminateSystems/nix-installer-action@v9
-            - name: Check repository
-              run: nix flake check              
+                fail-mode: true             
     matrix:
         name: Generate build matrix
         runs-on: ubuntu-latest

@@ -40,6 +40,14 @@ jobs:
               run: |
                 THEMES=$(ls assets/backgrounds/ | sed 's/\.png$//g' | jq --raw-input | jq --slurp -c)
                 echo "themes=$THEMES" >> $GITHUB_OUTPUT
+    update:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Automatically update flake.lock
+              uses: DeterminateSystems/update-flake-lock@latest
+              with:
+                  pr-title: "Update flake.lock"        # PR title
+                  #pr-labels: [dependencies, automated] # PR labels 
     build:
         name: Check nix build for theme ${{ matrix.theme }}
         runs-on: ubuntu-latest
